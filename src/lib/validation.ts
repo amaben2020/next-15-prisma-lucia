@@ -11,3 +11,12 @@ export const signupSchema = z.object({
   ),
   password: StringScalar,
 });
+
+export type SignUpValues = z.infer<typeof signupSchema>;
+
+export const loginSchema = z.object({
+  username: StringScalar,
+  password: StringScalar,
+});
+
+export type LoginValues = z.infer<typeof loginSchema>;
