@@ -1,13 +1,12 @@
-//@ts-nocheck
 import { PrismaClient } from '@prisma/client';
 
 const prismaClientSingleton = () => {
   return new PrismaClient();
 };
 
-declare global {
-  let prismaGlobal: undefined | ReturnType<typeof prismaClientSingleton>;
-}
+declare const globalThis: {
+  prismaGlobal: ReturnType<typeof prismaClientSingleton>;
+} & typeof global;
 
 const prisma = globalThis.prismaGlobal ?? prismaClientSingleton();
 
