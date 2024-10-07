@@ -33,6 +33,6 @@ model Session{
  id String @id //primary key
  userId String
  expiresAt DateTime
-User User @relation(fields: [userId], references: [id], onDelete: Cascade) //1-many relation
+user User @relation(fields: [userId], references: [id], onDelete: Cascade) //1-many relation
 @@map("sessions")
 }
