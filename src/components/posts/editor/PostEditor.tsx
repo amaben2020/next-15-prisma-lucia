@@ -5,6 +5,8 @@ import Placeholder from '@tiptap/extension-placeholder';
 import { submitPost } from './actions';
 import { useSession } from '@/app/(main)/SessionProvider';
 import UserAvatar from '@/components/UserAvatar';
+import './styles.css';
+
 const PostEditor = () => {
   const { user } = useSession();
   const editor = useEditor({
@@ -36,6 +38,7 @@ const PostEditor = () => {
           editor={editor}
           className="w-full max-h-[20rem] overflow-y-auto bg-background rounded-2xl px-5 py-3"
         />
+        <button onClick={onSubmit}>Post</button>
       </div>
     </div>
   );
