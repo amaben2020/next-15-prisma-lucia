@@ -9,14 +9,14 @@ export const signupSchema = z.object({
     /^[a-zA-Z0-9_-]+$/,
     'Only letters, numbers, - and _n allowed'
   ),
-  password: StringScalar,
+  password: StringScalar.min(8, 'Password must be at least 8 chars'),
 });
 
 export type SignUpValues = z.infer<typeof signupSchema>;
 
 export const loginSchema = z.object({
   username: StringScalar,
-  password: StringScalar,
+  password: StringScalar.min(8, 'Password must be at least 8 chars'),
 });
 
 export type LoginValues = z.infer<typeof loginSchema>;

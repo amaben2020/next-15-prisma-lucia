@@ -1,8 +1,9 @@
 'use client';
-
-import { signupSchema, SignUpValues } from '@/lib/validation';
-import { useForm } from 'react-hook-form';
+import { loginSchema, LoginValues } from '@/lib/validation';
 import { zodResolver } from '@hookform/resolvers/zod';
+import React, { useState, useTransition } from 'react';
+import { useForm } from 'react-hook-form';
+import { login } from './action';
 import {
   Form,
   FormControl,
@@ -12,33 +13,29 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { useState, useTransition } from 'react';
-import { signUp } from './actions';
 import { PasswordInput } from '@/components/PasswordInput';
 import LoadingButton from '@/components/LoadingButton';
 
-const SignupForm = () => {
+const LoginForm = () => {
   const [error, setError] = useState<string>();
 
   const [isPending, startTransition] = useTransition();
 
-  const form = useForm<SignUpValues>({
-    resolver: zodResolver(signupSchema),
+  const form = useForm({
+    resolver: zodResolver(loginSchema),
     defaultValues: {
-      email: '',
       username: '',
       password: '',
     },
   });
 
-  async function onSubmit(values: SignUpValues) {
+  async function onSubmit(values: LoginValues) {
     setError(undefined);
     startTransition(async () => {
-      const { error } = await signUp(values);
+      const { error } = await login(values);
       if (error) setError(error);
     });
   }
-
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
@@ -56,19 +53,7 @@ const SignupForm = () => {
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel> Email </FormLabel>
-              <FormControl>
-                <Input placeholder="Email" type="email" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+
         <FormField
           control={form.control}
           name="password"
@@ -82,7 +67,6 @@ const SignupForm = () => {
             </FormItem>
           )}
         />
-
         <LoadingButton loading={isPending} type="submit" className="w-full">
           {' '}
           Create account
@@ -92,4 +76,4 @@ const SignupForm = () => {
   );
 };
 
-export default SignupForm;
+export default LoginForm;
