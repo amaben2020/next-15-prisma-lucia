@@ -18,7 +18,8 @@ const SearchField = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    // progressive enhancement: ensuring featutr works without js
+    <form onSubmit={handleSubmit} method="GET" action="/search">
       <div className="relative">
         <Input name="q" placeholder="Search" className="pe-10" />
         <SearchIcon className="absolute right-3 top-1/2 size-5 -translate-y-1/2 transform text-muted-foreground" />
