@@ -6,13 +6,26 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuPortal,
   DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from '@radix-ui/react-dropdown-menu';
 import UserAvatar from './UserAvatar';
 import Link from 'next/link';
-import { LogOutIcon, UserIcon } from 'lucide-react';
+import {
+  Check,
+  CheckIcon,
+  LogOutIcon,
+  Monitor,
+  Moon,
+  Sun,
+  UserIcon,
+} from 'lucide-react';
 import { logout } from '@/app/(auth)/actions';
+import { useTheme } from 'next-themes';
 
 interface UserButtonProps {
   className?: string;
@@ -20,6 +33,7 @@ interface UserButtonProps {
 
 const UserButton = ({ className }: UserButtonProps) => {
   const { user } = useSession();
+  const { theme, setTheme } = useTheme();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -39,6 +53,7 @@ const UserButton = ({ className }: UserButtonProps) => {
             Profile
           </DropdownMenuItem>
         </Link>
+
         <DropdownMenuSeparator />
         <DropdownMenuItem
           className="flex gap-x-5 items-center"
@@ -50,6 +65,23 @@ const UserButton = ({ className }: UserButtonProps) => {
           Logout
         </DropdownMenuItem>
       </DropdownMenuContent>
+
+      <div>
+        <button onClick={() => setTheme('system')}>
+          <Monitor className="mr-2 size-4" />
+          {theme === 'system' && <Check className="mr-2 size-4" />}
+        </button>
+
+        <button onClick={() => setTheme('light')}>
+          <Sun className="mr-2 size-4" />
+          {theme === 'light' && <CheckIcon className="mr-2 size-4" />}
+        </button>
+
+        <button onClick={() => setTheme('dark')}>
+          <Moon className="mr-2 size-4" />
+          {theme === 'dark' && <CheckIcon className="mr-2 size-4" />}
+        </button>
+      </div>
     </DropdownMenu>
   );
 };
