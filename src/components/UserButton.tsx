@@ -11,7 +11,8 @@ import {
 } from '@radix-ui/react-dropdown-menu';
 import UserAvatar from './UserAvatar';
 import Link from 'next/link';
-import { UserIcon } from 'lucide-react';
+import { LogOutIcon, UserIcon } from 'lucide-react';
+import { logout } from '@/app/(auth)/actions';
 
 interface UserButtonProps {
   className?: string;
@@ -22,7 +23,7 @@ const UserButton = ({ className }: UserButtonProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <button className="">
+        <button className="flex-none rounded-full">
           <UserAvatar avatarUrl={user.avatarUrl} size={40} />
         </button>
       </DropdownMenuTrigger>
@@ -38,6 +39,16 @@ const UserButton = ({ className }: UserButtonProps) => {
             Profile
           </DropdownMenuItem>
         </Link>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem
+          className="flex gap-x-5 items-center"
+          onClick={() => {
+            logout();
+          }}
+        >
+          <LogOutIcon className="mr-2 size-4" />
+          Logout
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
