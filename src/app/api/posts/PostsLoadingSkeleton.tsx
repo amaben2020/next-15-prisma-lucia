@@ -4,7 +4,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 const PostsLoadingSkeleton = () => {
   return (
-    <div>
+    <div className="space-y-4">
       <PostLoadingSkeleton />
       <PostLoadingSkeleton />
       <PostLoadingSkeleton />

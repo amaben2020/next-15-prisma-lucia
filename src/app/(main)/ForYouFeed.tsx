@@ -9,6 +9,7 @@ import { Loader2, Mail } from 'lucide-react';
 import axios from 'axios';
 import { Button } from '@/components/ui/button';
 import InfiniteScrollContainer from '@/components/InfiniteScrollContainer';
+import PostsLoadingSkeleton from '../api/posts/PostsLoadingSkeleton';
 const ForYouFeed = () => {
   const {
     status,
@@ -39,7 +40,10 @@ const ForYouFeed = () => {
   const posts = data?.pages.flatMap((page) => page.posts) || [];
 
   if (status === 'pending') {
-    return <Loader2 className="animate-spin mx-auto" />;
+    return <PostsLoadingSkeleton />;
+  }
+  if (status === 'success' && !posts.length && !hasNextPage) {
+    return <p>No Posts</p>;
   }
   if (status === 'error') {
     return <p>An error occured</p>;
