@@ -28,7 +28,7 @@ const Post = ({ post }: PostPops) => {
             className="block text-sm hover:underline text-muted-foreground"
             href={`/users/${post.user.username}`}
           >
-            {formatRelativeDate(post.createdAt)}
+            {formatRelativeDate(new Date(post.createdAt))}
           </Link>
         </div>
       </div>

@@ -4,6 +4,7 @@ import TrendsSidebar from '@/components/TrendsSidebar';
 import prisma from '@/lib/prisma';
 import { postDataInclude } from '@/lib/types';
 import Image from 'next/image';
+import ForYouFeed from './ForYouFeed';
 
 export default async function Home() {
   const posts = await prisma.post.findMany({
@@ -18,9 +19,8 @@ export default async function Home() {
     <main className="w-full min-w-0 flex gap-5">
       <div className="w-full space-y-4">
         <PostEditor />
-        {posts.map((post) => (
-          <Post post={post} />
-        ))}
+
+        <ForYouFeed />
       </div>
 
       <TrendsSidebar />
