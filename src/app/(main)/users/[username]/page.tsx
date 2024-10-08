@@ -1,10 +1,11 @@
 import prisma from '@/lib/prisma';
-import { getUserDataSelect } from '@/lib/types';
+import { FollowerInfo, getUserDataSelect, UserData } from '@/lib/types';
 import { notFound } from 'next/navigation';
 import React, { cache } from 'react';
 import { PageProps } from '../../../../../.next/types/app/layout';
 import { validateRequest } from '@/auth';
 import TrendsSidebar from '@/components/TrendsSidebar';
+import UserAvatar from '@/components/UserAvatar';
 
 // so we make the request once: Deduplication
 const getUser = cache(async (username: string, loggedInUserId: string) => {
@@ -43,7 +44,9 @@ const Page = async ({ params: { username } }: PageProps) => {
   const user = await getUser(username, loggedInUser.id);
   return (
     <main className="flex w-full min-w-0 gap-5">
-      <div className="flex w-full min-w-0 space-y-5"></div>
+      <div className="flex w-full min-w-0 space-y-5">
+        <UserProfile user={user} loggedInUserId={loggedInUser.id} />
+      </div>
 
       <TrendsSidebar />
     </main>
@@ -53,7 +56,25 @@ const Page = async ({ params: { username } }: PageProps) => {
 export default Page;
 
 interface UserProfileProps {
-  user: any;
+  user: UserData;
+  loggedInUserId: string;
 }
 
-async function UserProfile({}) {}
+async function UserProfile({ user, loggedInUserId }: UserProfileProps) {
+  const followerInfo: FollowerInfo = {
+    followers: user._count.followers,
+    isFollowedByUser: user.followers.some(
+      ({ followerId }) => followerId === loggedInUserId
+    ),
+  };
+
+  return (
+    <div className="h-fit w-full space-y-5 rounded-2xl bg-card p-5 shadow-sm">
+      <UserAvatar
+        size={250}
+        avatarUrl={user.avatarUrl}
+        className="mx-auto size-full max-h-60 max-w-60 rounded-full"
+      />
+    </div>
+  );
+}
