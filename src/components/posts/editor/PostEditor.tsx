@@ -6,9 +6,12 @@ import { submitPost } from './actions';
 import { useSession } from '@/app/(main)/SessionProvider';
 import UserAvatar from '@/components/UserAvatar';
 import './styles.css';
+import { useSubmitPostMutation } from './mutations';
+import LoadingButton from '@/components/LoadingButton';
 
 const PostEditor = () => {
   const { user } = useSession();
+  const mutation = useSubmitPostMutation();
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
@@ -26,8 +29,12 @@ const PostEditor = () => {
     }) || '';
 
   async function onSubmit() {
-    await submitPost(input);
-    editor?.commands.clearContent();
+    mutation.mutate(input, {
+      onSuccess: () => {
+        // clear editor
+        editor?.commands.clearContent();
+      },
+    });
   }
 
   return (
@@ -38,7 +45,9 @@ const PostEditor = () => {
           editor={editor}
           className="w-full max-h-[20rem] overflow-y-auto bg-background rounded-2xl px-5 py-3"
         />
-        <button onClick={onSubmit}>Post</button>
+        <LoadingButton loading={mutation.isPending} onClick={onSubmit}>
+          Post
+        </LoadingButton>
       </div>
     </div>
   );
