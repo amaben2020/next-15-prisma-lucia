@@ -1,9 +1,14 @@
 import { validateRequest } from '@/auth';
 import prisma from '@/lib/prisma';
-import { postDataInclude } from '@/lib/types';
+import { postDataInclude, PostsPage } from '@/lib/types';
+import { NextRequest } from 'next/server';
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
+    const cursor = req.nextUrl.searchParams.get('cursor') || undefined;
+    // slowing backend
+    // await new Promise((r) => setTimeout(() => r, 2000));
+    const pageSize = 10;
     const { user } = await validateRequest();
     console.log(user);
     if (!user) {
@@ -22,9 +27,18 @@ export async function GET() {
       orderBy: {
         createdAt: 'desc',
       },
+      take: pageSize + 1,
+      cursor: cursor ? { id: cursor } : undefined,
     });
 
-    return Response.json(posts);
+    const nextCursor = posts.length > pageSize ? posts[pageSize].id : null;
+
+    const data: PostsPage = {
+      posts: posts.slice(0, pageSize),
+      nextCursor,
+    };
+
+    return Response.json(data);
   } catch (error) {
     console.log(error);
     return Response.json(
