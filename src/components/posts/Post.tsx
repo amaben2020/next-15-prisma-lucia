@@ -17,27 +17,27 @@ const Post = ({ post }: PostPops) => {
     <article className="space-y-3 rounded-2xl bg-card p-5 shadow-sm group/post">
       <div className="flex justify-between gap-3">
         <div className="flex flex-wrap gap-3">
-          <Link href={`/users/${post.user.username}`}>
-            <UserAvatar avatarUrl={post.user.avatarUrl} />
+          <Link href={`/users/${post?.user?.username}`}>
+            <UserAvatar avatarUrl={post?.user?.avatarUrl} />
           </Link>
 
           <div>
             <Link
               className="block font-medium hover:underline"
-              href={`/users/${post.user.username}`}
+              href={`/users/${post?.user?.username}`}
             >
-              {post.user.displayName}
+              {post?.user?.displayName}
             </Link>
 
             <Link
               className="block text-sm hover:underline text-muted-foreground"
-              href={`/users/${post.user.username}`}
+              href={`/users/${post?.user?.username}`}
             >
-              {formatRelativeDate(new Date(post.createdAt))}
+              {formatRelativeDate(new Date(post?.createdAt))}
             </Link>
           </div>
         </div>
-        {post.userId === user.id && (
+        {post?.userId === user.id && (
           <PostMoreButton
             post={post}
             className="opacity-0 transition-opacity group-hover/post:opacity-100"
@@ -45,7 +45,7 @@ const Post = ({ post }: PostPops) => {
         )}
       </div>
 
-      <div className="whitespace-pre-line break-words">{post.content}</div>
+      <div className="whitespace-pre-line break-words">{post?.content}</div>
     </article>
   );
 };
