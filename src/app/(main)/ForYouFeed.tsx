@@ -10,6 +10,7 @@ import axios from 'axios';
 import { Button } from '@/components/ui/button';
 import InfiniteScrollContainer from '@/components/InfiniteScrollContainer';
 import PostsLoadingSkeleton from '../api/posts/PostsLoadingSkeleton';
+import DeletePostDialog from '@/components/posts/DeletePostDialog';
 const ForYouFeed = () => {
   const {
     status,
@@ -58,6 +59,7 @@ const ForYouFeed = () => {
         <Post post={post} />
       ))}
       {isFetchingNextPage && <Loader2 className="animate-spin mx-auto my-3" />}
+      {/* <DeletePostDialog open post={posts[0]} onClose={() => {}} /> */}
     </InfiniteScrollContainer>
   );
 };
